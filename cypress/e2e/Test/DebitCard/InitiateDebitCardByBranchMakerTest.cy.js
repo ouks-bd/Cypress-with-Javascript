@@ -1,0 +1,119 @@
+/// <reference types="cypress" />
+import { Dashboard } from "../../Pages/DashBoard/Dashboard.cy";
+import { InitiateDebitCard } from "../../Pages/DebitCard/InitiateDebitCardByBranchMaker.cy";
+import { LoginPage } from "../../Pages/LogIn/login.cy";
+
+
+
+describe('E2E Branch User Maker ', function () {
+
+    this.beforeEach(function () {
+        cy.fixture('TestData').then(function (testdata) {
+            this.testdata = testdata
+            const login = new LoginPage()
+
+            login.navigate()
+
+            login.enterUsername().type(this.testdata.BranchUserMaker)
+            login.enterPassword().type(this.testdata.password01)
+            login.clickLogin()
+
+        })
+    })
+
+
+    context("E2E Debit Card Initiate", () => {
+
+        it('TC001 - Login as Branch Manager and Initiate Request', function () {
+            const login = new LoginPage()
+            const dashboard = new Dashboard()
+            const initiatedebitcard = new InitiateDebitCard()
+
+
+
+            dashboard.debitCardInitiationPage();
+
+            initiatedebitcard.searchAccoutNumber().type(this.testdata.AccountNumber)
+            initiatedebitcard.searchAccoutNumberClick();
+
+            //initiatedebitcard.selectCard();
+            initiatedebitcard.selectBranch();
+
+            initiatedebitcard.submitButton();
+
+            initiatedebitcard.debitCardSucessfullButton();
+
+
+        })
+
+        // it('TC002 - Login as Branch Manager and Initiate Request For Close Account', function () {
+        //     const login = new LoginPage()
+        //     const dashboard = new Dashboard()
+        //     const initiatedebitcard = new InitiateDebitCard()
+
+
+        //     dashboard.debitCardInitiationPage();
+
+        //     initiatedebitcard.searchAccoutNumber().type(this.testdata.CloseAccountNumber)
+        //     initiatedebitcard.searchAccoutNumberClick();
+        //     initiatedebitcard.closeAccountMessage();
+
+
+
+
+        // })
+
+        // it('TC003 - Login as Branch Manager and Initiate Request For Dorment Account', function () {
+        //     const login = new LoginPage()
+        //     const dashboard = new Dashboard()
+        //     const initiatedebitcard = new InitiateDebitCard()
+
+
+        //     dashboard.debitCardInitiationPage();
+
+        //     initiatedebitcard.searchAccoutNumber().type(this.testdata.DormentAccountNumber)
+        //     initiatedebitcard.searchAccoutNumberClick();
+        //     initiatedebitcard.DormentAccountMessage();
+
+
+
+
+        // })
+
+
+        // it('TC004 - Login as Branch Manager and Initiate Request For Invalid Account', function () {
+        //     const login = new LoginPage()
+        //     const dashboard = new Dashboard()
+        //     const initiatedebitcard = new InitiateDebitCard()
+
+
+        //     dashboard.debitCardInitiationPage();
+
+        //     initiatedebitcard.searchAccoutNumber().type(this.testdata.InvalidAccount)
+        //     initiatedebitcard.searchAccoutNumberClick();
+        //     initiatedebitcard.InvalidAccountMessage();
+
+
+
+
+        // })
+
+        it('TC005 - Submit the Account for Checker Approved', function () {
+            const dashboard = new Dashboard()
+            const initiatedebitcard = new InitiateDebitCard()
+
+            dashboard.debitCardInitiationPage();
+
+            initiatedebitcard.accountSearch().type(this.testdata.AccountNumber)
+            initiatedebitcard.buttonSearch();
+            initiatedebitcard.GetRefernece();
+            initiatedebitcard.accountSubmitButton();
+            cy.wait(2000)
+
+
+        })
+
+    })
+
+
+})
