@@ -19,7 +19,6 @@ describe('E2E OPS Debitcard ', function () {
             login.clickLogin()
         })
     })
-    // const login = new LoginPage()
 
 
 
